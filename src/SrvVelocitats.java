@@ -26,7 +26,8 @@ public class SrvVelocitats {
         lista = new String[]{"la mama de la mama de la mama de la mama de la mama de la mama",
                              "La clau d’accés de cada usuari no s’ha de donar a conèixer a ningú més",
                              "L’accés a Internet haurà de limitar-se als objectius acadèmics fixats pel departament",
-                             " Per tal de garantir el respecte d’aquestes normes, els professors es reserven el dret d’auditar qualsevol treball"
+                             " Per tal de garantir el respecte d’aquestes normes, els professors es reserven el dret d’auditar qualsevol treball",
+                             "una frase chiquita"
         };
     }
 
@@ -38,7 +39,6 @@ public class SrvVelocitats {
             int aleatorio = new Random().nextInt(lista.length);
             String fraseElegida = lista[aleatorio];
             byte [] enviarFrase = fraseElegida.getBytes();
-            System.out.println(fraseElegida);
             sendingData = ByteBuffer.allocate(enviarFrase.length).put(enviarFrase).array();
             packet = new DatagramPacket(sendingData, sendingData.length,multicastIP, port);
             socket.send(packet);

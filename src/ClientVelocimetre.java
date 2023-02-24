@@ -24,17 +24,17 @@ public class ClientVelocimetre {
 
     public void runClient() throws IOException{
         DatagramPacket packet;
-        byte [] receivedData = new byte[4];
+        byte [] receivedData = new byte[120];
 
         socket.joinGroup(group,netIf);
         System.out.printf("Connectat a %s:%d%n",group.getAddress(),group.getPort());
 
         while(continueRunning){
-            packet = new DatagramPacket(receivedData, 4);
+            packet = new DatagramPacket(receivedData, 120);
             socket.setSoTimeout(5000);
             try{
                 socket.receive(packet);
-                continueRunning = getData(packet.getData());
+                continueRunning = getData(packet.getData(), packet.getLength());
             }catch(SocketTimeoutException e){
                 System.out.println("S'ha perdut la connexió amb el servidor.");
                 continueRunning = false;
@@ -50,16 +50,16 @@ public class ClientVelocimetre {
         socket.close();
     }
 
-    protected boolean getData(byte[] data) {
+    protected boolean getData(byte[] data, int lenght) {
         boolean ret=true;
+        String msg = new String(data,0,lenght);
 
-        int v = ByteBuffer.wrap(data).getInt();
+        String[] palabras = msg.split(" ");
+        if (palabras.length >= 8) {
+            System.out.println(msg);
+        }
 
-        //pintem velocimetre
-        for(int i=0;i<v;i++) System.out.print("#");
-        System.out.print("\n");
 
-        //if (v==1) ret=false;
 
         return ret;
     }
